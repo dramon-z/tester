@@ -1,0 +1,32 @@
+# General 
+serviceName: tr-spin-generic-svc-backend-java-gradle-kubernetes
+version: 0.0.1
+environment: develop
+namespace: default # NO CAMBIAR - PROBLEMAS CON "Secrets Store CSI drive" & "AWS provider for the Secrets Store CSI Driver" 
+lang: java
+exposeService:
+  enabled: false
+  path: "" # Example -> path: "/dummy"
+# Deployment
+replicaCount: 1
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: latest
+
+port: 80
+resources:
+  limits:
+    cpu: 500m
+    memory: 1024Mi
+  requests:
+    cpu: 500m
+    memory: 1024Mi
+# Pod
+podAnnotations: {"linkerd.io/inject": "enabled"}
+imagePullSecrets: regcred
+# HPA
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
